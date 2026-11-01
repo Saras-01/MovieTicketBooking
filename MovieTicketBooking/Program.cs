@@ -1,8 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using MovieTicketBooking.Data;
+using MovieTicketBooking.Repositories;
+using MovieTicketBooking.Repositories.Interfaces;
+using MovieTicketBooking.Services;
+using MovieTicketBooking.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
+// Register Movie Repository
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 
+// Register Movie Service
+builder.Services.AddScoped<IMovieService, MovieService>();
 // Add services to the container.
 
 builder.Services.AddControllers();
