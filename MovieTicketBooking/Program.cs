@@ -1,30 +1,53 @@
 using Microsoft.EntityFrameworkCore;
+
 using MovieTicketBooking.Data;
+
 using MovieTicketBooking.Repositories;
 using MovieTicketBooking.Repositories.Interfaces;
+
 using MovieTicketBooking.Services;
 using MovieTicketBooking.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
-// Register Movie Repository
-builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 
-// Register Movie Service
-builder.Services.AddScoped<IMovieService, MovieService>();
-// Add services to the container.
-
+// ========================================
+// 1. Add Controllers
+// ========================================
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
+// ========================================
+// 2. Configure SQL Server Database
+// ========================================
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 
+// ========================================
+// 3. Register Movie Repository and Service
+// ========================================
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+builder.Services.AddScoped<IMovieService, MovieService>();
+
+// ========================================
+// 4. Register Theatre Repository and Service
+// ========================================
+builder.Services.AddScoped<ITheatreRepository, TheatreRepository>();
+builder.Services.AddScoped<ITheatreService, TheatreService>();
+
+// ========================================
+// 5. Add OpenAPI Support
+// ========================================
 builder.Services.AddOpenApi();
 
+// ========================================
+// 6. Build Application
+// ========================================
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// ========================================
+// 7. Configure HTTP Request Pipeline
+// ========================================
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -34,6 +57,12 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+// ========================================
+// 8. Map Controllers
+// ========================================
 app.MapControllers();
 
+// ========================================
+// 9. Run Application
+// ========================================
 app.Run();
