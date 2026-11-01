@@ -16,8 +16,6 @@ public class BookingsController : ControllerBase
     }
 
     // GET: api/bookings
-    // GET: api/bookings?showId=1
-    // GET: api/bookings?status=Confirmed
     [HttpGet]
     public async Task<IActionResult> GetAll(
         [FromQuery] int? showId,
@@ -54,45 +52,23 @@ public class BookingsController : ControllerBase
     public async Task<IActionResult> Create(
         [FromBody] CreateBookingRequest request)
     {
-        try
-        {
-            var booking = await _bookingService.CreateAsync(request);
+        var booking = await _bookingService.CreateAsync(request);
 
-            return CreatedAtAction(
-                nameof(GetById),
-                new { id = booking.BookingId },
-                booking);
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(new { message = ex.Message });
-        }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(new { message = ex.Message });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { message = ex.Message });
-        }
+        return CreatedAtAction(
+            nameof(GetById),
+            new { id = booking.BookingId },
+            booking);
     }
 
     // PUT: api/bookings/1/cancel
     [HttpPut("{id}/cancel")]
     public async Task<IActionResult> Cancel(int id)
     {
-        try
-        {
-            var booking = await _bookingService.CancelAsync(id);
+        var booking = await _bookingService.CancelAsync(id);
 
-            if (booking == null)
-                return NotFound(new { message = "Booking not found." });
+        if (booking == null)
+            return NotFound(new { message = "Booking not found." });
 
-            return Ok(booking);
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { message = ex.Message });
-        }
+        return Ok(booking);
     }
 }
