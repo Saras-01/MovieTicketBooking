@@ -103,11 +103,44 @@ public class ShowRepository : IShowRepository
             return false;
         }
 
-        _context.Shows.Remove(show);
+        // Check whether this show has any bookings
+        bool hasBookings = await _context.Bookings
+            .AnyAsync(b => b.ShowId == id);
 
-        await _context.SaveChangesAsync();
+        if (hasBookings)
+        {
+            throw new InvalidOperationException(
+                "Cannot delete this show because bookings already exist.");
+        }
 
-        return true;
+        await using var transaction =
+            await _context.Database.BeginTransactionAsync();
+
+        try
+        {
+            // Delete associated ShowSeats first
+            var showSeats = await _context.ShowSeats
+                .Where(ss => ss.ShowId == id)
+                .ToListAsync();
+
+            _context.ShowSeats.RemoveRange(showSeats);
+
+            await _context.SaveChangesAsync();
+
+            // Delete the show
+            _context.Shows.Remove(show);
+
+            await _context.SaveChangesAsync();
+
+            await transaction.CommitAsync();
+
+            return true;
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
     }
 
     public async Task<bool> HasScheduleConflictAsync(

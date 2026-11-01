@@ -15,16 +15,13 @@ public class ShowsController : ControllerBase
         _showService = showService;
     }
 
-    // GET: api/shows
     [HttpGet]
     public async Task<ActionResult<List<ShowResponse>>> GetAll()
     {
         var shows = await _showService.GetAllAsync();
-
         return Ok(shows);
     }
 
-    // GET: api/shows/1
     [HttpGet("{id}")]
     public async Task<ActionResult<ShowResponse>> GetById(int id)
     {
@@ -38,7 +35,6 @@ public class ShowsController : ControllerBase
         return Ok(show);
     }
 
-    // POST: api/shows
     [HttpPost]
     public async Task<ActionResult<ShowResponse>> Create(
         CreateShowRequest request)
@@ -62,7 +58,6 @@ public class ShowsController : ControllerBase
         }
     }
 
-    // PUT: api/shows/1
     [HttpPut("{id}")]
     public async Task<ActionResult<ShowResponse>> Update(
         int id,
@@ -85,28 +80,33 @@ public class ShowsController : ControllerBase
         }
     }
 
-    // DELETE: api/shows/1
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var deleted = await _showService.DeleteAsync(id);
-
-        if (!deleted)
+        try
         {
-            return NotFound(new { message = "Show not found." });
-        }
+            var deleted = await _showService.DeleteAsync(id);
 
-        return NoContent();
+            if (!deleted)
+            {
+                return NotFound(new { message = "Show not found." });
+            }
+
+            return NoContent();
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Conflict(new { message = ex.Message });
+        }
     }
 
-    // GET: api/shows/1/seats
     [HttpGet("{id}/seats")]
-    public async Task<ActionResult<List<ShowSeatResponse>>> GetShowSeats(int id)
+    public async Task<ActionResult<List<ShowSeatResponse>>> GetShowSeats(
+        int id)
     {
         try
         {
             var seats = await _showService.GetShowSeatsAsync(id);
-
             return Ok(seats);
         }
         catch (ArgumentException ex)
