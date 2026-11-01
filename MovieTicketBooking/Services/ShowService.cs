@@ -106,6 +106,30 @@ public class ShowService : IShowService
         return await _showRepository.DeleteAsync(id);
     }
 
+    // Retrieve and map ShowSeat records
+    public async Task<List<ShowSeatResponse>> GetShowSeatsAsync(int showId)
+    {
+        var show = await _showRepository.GetByIdAsync(showId);
+
+        if (show == null)
+        {
+            throw new ArgumentException("Show not found.");
+        }
+
+        var showSeats = await _showRepository.GetShowSeatsAsync(showId);
+
+        return showSeats.Select(ss => new ShowSeatResponse
+        {
+            ShowSeatId = ss.ShowSeatId,
+            ShowId = ss.ShowId,
+            SeatId = ss.SeatId,
+            RowName = ss.Seat?.RowName ?? string.Empty,
+            SeatNumber = ss.Seat?.SeatNumber ?? 0,
+            SeatType = ss.Seat?.SeatType ?? string.Empty,
+            Status = ss.Status
+        }).ToList();
+    }
+
     private async Task ValidateShowAsync(
         int movieId,
         int screenId,

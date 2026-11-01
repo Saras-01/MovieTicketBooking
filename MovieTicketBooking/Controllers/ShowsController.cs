@@ -98,4 +98,20 @@ public class ShowsController : ControllerBase
 
         return NoContent();
     }
+
+    // GET: api/shows/1/seats
+    [HttpGet("{id}/seats")]
+    public async Task<ActionResult<List<ShowSeatResponse>>> GetShowSeats(int id)
+    {
+        try
+        {
+            var seats = await _showService.GetShowSeatsAsync(id);
+
+            return Ok(seats);
+        }
+        catch (ArgumentException ex)
+        {
+            return NotFound(new { message = ex.Message });
+        }
+    }
 }

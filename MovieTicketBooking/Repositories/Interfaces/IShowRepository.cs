@@ -19,4 +19,7 @@ public interface IShowRepository
         DateTime startTime,
         DateTime endTime,
         int? excludeShowId = null);
+
+    // Retrieve all seats belonging to a particular show
+    Task<List<ShowSeat>> GetShowSeatsAsync(int showId);
 }

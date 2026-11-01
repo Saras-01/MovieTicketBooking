@@ -33,11 +33,45 @@ public class ShowRepository : IShowRepository
 
     public async Task<Show> CreateAsync(Show show)
     {
-        _context.Shows.Add(show);
+        await using var transaction =
+            await _context.Database.BeginTransactionAsync();
 
-        await _context.SaveChangesAsync();
+        try
+        {
+            var seats = await _context.Seats
+                .Where(s => s.ScreenId == show.ScreenId)
+                .ToListAsync();
 
-        return show;
+            if (seats.Count == 0)
+            {
+                throw new InvalidOperationException(
+                    "Cannot create a show because this screen has no seats.");
+            }
+
+            _context.Shows.Add(show);
+
+            await _context.SaveChangesAsync();
+
+            var showSeats = seats.Select(seat => new ShowSeat
+            {
+                ShowId = show.ShowId,
+                SeatId = seat.SeatId,
+                Status = "Available"
+            }).ToList();
+
+            _context.ShowSeats.AddRange(showSeats);
+
+            await _context.SaveChangesAsync();
+
+            await transaction.CommitAsync();
+
+            return show;
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
     }
 
     public async Task<Show?> UpdateAsync(int id, Show show)
@@ -84,8 +118,19 @@ public class ShowRepository : IShowRepository
     {
         return await _context.Shows.AnyAsync(s =>
             s.ScreenId == screenId &&
-            s.ShowId != excludeShowId &&
+            (!excludeShowId.HasValue || s.ShowId != excludeShowId.Value) &&
             startTime < s.EndTime &&
             endTime > s.StartTime);
+    }
+
+    // Retrieve all seats belonging to a particular show
+    public async Task<List<ShowSeat>> GetShowSeatsAsync(int showId)
+    {
+        return await _context.ShowSeats
+            .Include(ss => ss.Seat)
+            .Where(ss => ss.ShowId == showId)
+            .OrderBy(ss => ss.Seat!.RowName)
+            .ThenBy(ss => ss.Seat!.SeatNumber)
+            .ToListAsync();
     }
 }

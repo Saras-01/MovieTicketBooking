@@ -13,4 +13,7 @@ public interface IShowService
     Task<ShowResponse?> UpdateAsync(int id, UpdateShowRequest request);
 
     Task<bool> DeleteAsync(int id);
+
+    // Retrieve all seats belonging to a particular show
+    Task<List<ShowSeatResponse>> GetShowSeatsAsync(int showId);
 }
