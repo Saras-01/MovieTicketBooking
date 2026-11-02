@@ -17,6 +17,7 @@ public class BookingsController : ControllerBase
     }
 
     // GET: api/bookings
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> GetAll(
         [FromQuery] int? showId,
@@ -40,6 +41,7 @@ public class BookingsController : ControllerBase
     }
 
     // GET: api/bookings/show/1
+    [Authorize(Roles = "Admin")]
     [HttpGet("show/{showId}")]
     public async Task<IActionResult> GetByShowId(int showId)
     {
@@ -63,6 +65,7 @@ public class BookingsController : ControllerBase
     }
 
     // PUT: api/bookings/1/cancel
+    [Authorize(Roles = "Customer,Admin")]
     [HttpPut("{id}/cancel")]
     public async Task<IActionResult> Cancel(int id)
     {

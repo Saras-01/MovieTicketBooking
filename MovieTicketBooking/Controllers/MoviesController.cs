@@ -39,6 +39,7 @@ public class MoviesController : ControllerBase
     }
 
     // POST: api/movies
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> Create(
         [FromBody] CreateMovieRequest request)
@@ -52,6 +53,7 @@ public class MoviesController : ControllerBase
     }
 
     // PUT: api/movies/1
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(
         int id,
@@ -66,6 +68,7 @@ public class MoviesController : ControllerBase
     }
 
     // DELETE: api/movies/1
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {

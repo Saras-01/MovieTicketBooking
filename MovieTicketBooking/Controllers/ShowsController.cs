@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieTicketBooking.DTOs.Shows;
 using MovieTicketBooking.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MovieTicketBooking.Controllers;
 
@@ -35,6 +36,7 @@ public class ShowsController : ControllerBase
         return Ok(show);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<ActionResult<ShowResponse>> Create(
         CreateShowRequest request)
@@ -58,6 +60,7 @@ public class ShowsController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
     public async Task<ActionResult<ShowResponse>> Update(
         int id,
@@ -80,6 +83,7 @@ public class ShowsController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {

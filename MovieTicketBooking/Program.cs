@@ -56,6 +56,9 @@ builder.Services.AddScoped<TokenService>();
 // Password Hashing
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
+// HTTP Context Accessor
+builder.Services.AddHttpContextAccessor();
+
 // JWT Configuration
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 

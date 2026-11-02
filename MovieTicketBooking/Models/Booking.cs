@@ -8,6 +8,11 @@
 
         public int ShowId { get; set; }
 
+        // User ownership
+        public int? UserId { get; set; }
+
+        public User? User { get; set; }
+
         public string CustomerName { get; set; } = string.Empty;
 
         public string CustomerEmail { get; set; } = string.Empty;
@@ -20,7 +25,7 @@
 
         public string Status { get; set; } = "Confirmed";
 
-        // Navigation property
+        // Navigation properties
         public Show? Show { get; set; }
 
         public ICollection<BookingSeat> BookingSeats { get; set; }

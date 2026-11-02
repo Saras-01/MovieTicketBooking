@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using MovieTicketBooking.Exceptions;
 
 namespace MovieTicketBooking.Exceptions;
 
@@ -20,34 +21,38 @@ public class GlobalExceptionHandler : IExceptionHandler
     {
         _logger.LogError(
             exception,
-            "An unexpected error occurred.");
+            "An exception occurred: {Message}",
+            exception.Message);
 
-        var statusCode = exception switch
+        var (statusCode, title) = exception switch
         {
-            ArgumentException => StatusCodes.Status400BadRequest,
-            KeyNotFoundException => StatusCodes.Status404NotFound,
-            UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
-            InvalidOperationException => StatusCodes.Status409Conflict,
-            _ => StatusCodes.Status500InternalServerError
+            ForbiddenAccessException =>
+                (StatusCodes.Status403Forbidden, "Forbidden"),
+
+            UnauthorizedAccessException =>
+                (StatusCodes.Status401Unauthorized, "Unauthorized"),
+
+            ArgumentException =>
+                (StatusCodes.Status400BadRequest, "Bad Request"),
+
+            KeyNotFoundException =>
+                (StatusCodes.Status404NotFound, "Not Found"),
+
+            InvalidOperationException =>
+                (StatusCodes.Status409Conflict, "Conflict"),
+
+            _ =>
+                (StatusCodes.Status500InternalServerError,
+                 "Internal Server Error")
         };
 
         var problemDetails = new ProblemDetails
         {
             Status = statusCode,
-            Title = statusCode switch
-            {
-                400 => "Bad Request",
-                401 => "Unauthorized",
-                404 => "Resource Not Found",
-                409 => "Conflict",
-                _ => "Internal Server Error"
-            },
-            Detail = statusCode switch
-            {
-                401 => "Invalid email or password.",
-                500 => "An unexpected error occurred.",
-                _ => exception.Message
-            },
+            Title = title,
+            Detail = statusCode == StatusCodes.Status500InternalServerError
+                ? "An unexpected error occurred."
+                : exception.Message,
             Instance = httpContext.Request.Path
         };
 
