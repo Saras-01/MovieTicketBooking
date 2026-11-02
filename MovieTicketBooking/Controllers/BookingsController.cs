@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovieTicketBooking.DTOs.Bookings;
 using MovieTicketBooking.Services.Interfaces;
 
@@ -48,6 +49,7 @@ public class BookingsController : ControllerBase
     }
 
     // POST: api/bookings
+    [Authorize(Roles = "Customer")]
     [HttpPost]
     public async Task<IActionResult> Create(
         [FromBody] CreateBookingRequest request)

@@ -20,8 +20,7 @@ public class TokenService
         var jwtSettings = _configuration.GetSection("Jwt");
 
         var key = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(
-                jwtSettings["Key"]!));
+            Encoding.UTF8.GetBytes(jwtSettings["Key"]!));
 
         var credentials = new SigningCredentials(
             key,
@@ -31,14 +30,18 @@ public class TokenService
         {
             new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
             new Claim(ClaimTypes.Name, user.FullName),
-            new Claim(ClaimTypes.Email, user.Email)
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Role, user.Role)
         };
+
+        int expiryMinutes = int.Parse(
+            jwtSettings["ExpiryMinutes"]!);
 
         var token = new JwtSecurityToken(
             issuer: jwtSettings["Issuer"],
             audience: jwtSettings["Audience"],
             claims: claims,
-            expires: DateTime.UtcNow.AddHours(2),
+            expires: DateTime.UtcNow.AddMinutes(expiryMinutes),
             signingCredentials: credentials
         );
 

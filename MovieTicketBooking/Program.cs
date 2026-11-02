@@ -1,10 +1,15 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using MovieTicketBooking.Data;
+using MovieTicketBooking.Exceptions;
+using MovieTicketBooking.Models;
 using MovieTicketBooking.Repositories;
 using MovieTicketBooking.Repositories.Interfaces;
 using MovieTicketBooking.Services;
 using MovieTicketBooking.Services.Interfaces;
-using MovieTicketBooking.Exceptions;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +48,47 @@ builder.Services.AddScoped<IShowService, ShowService>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 
+// JWT Authentication Services
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<TokenService>();
+
+// Password Hashing
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
+// JWT Configuration
+var jwtSettings = builder.Configuration.GetSection("Jwt");
+
+var jwtKey = Encoding.UTF8.GetBytes(
+    jwtSettings["Key"]!);
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme =
+        JwtBearerDefaults.AuthenticationScheme;
+
+    options.DefaultChallengeScheme =
+        JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+
+        IssuerSigningKey = new SymmetricSecurityKey(jwtKey),
+        RoleClaimType = System.Security.Claims.ClaimTypes.Role,
+
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
@@ -56,6 +102,8 @@ app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 
+// Authentication must come before Authorization
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

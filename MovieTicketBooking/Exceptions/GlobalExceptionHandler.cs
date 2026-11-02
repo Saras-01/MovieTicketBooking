@@ -26,6 +26,7 @@ public class GlobalExceptionHandler : IExceptionHandler
         {
             ArgumentException => StatusCodes.Status400BadRequest,
             KeyNotFoundException => StatusCodes.Status404NotFound,
+            UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
             InvalidOperationException => StatusCodes.Status409Conflict,
             _ => StatusCodes.Status500InternalServerError
         };
@@ -36,13 +37,17 @@ public class GlobalExceptionHandler : IExceptionHandler
             Title = statusCode switch
             {
                 400 => "Bad Request",
+                401 => "Unauthorized",
                 404 => "Resource Not Found",
                 409 => "Conflict",
                 _ => "Internal Server Error"
             },
-            Detail = statusCode == 500
-                ? "An unexpected error occurred."
-                : exception.Message,
+            Detail = statusCode switch
+            {
+                401 => "Invalid email or password.",
+                500 => "An unexpected error occurred.",
+                _ => exception.Message
+            },
             Instance = httpContext.Request.Path
         };
 
