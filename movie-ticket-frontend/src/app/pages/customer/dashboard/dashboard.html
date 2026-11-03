@@ -1,0 +1,193 @@
+<!-- Navigation Bar -->
+<header class="navbar">
+
+  <div class="logo">
+    <span class="logo-icon">▶</span>
+    <span class="logo-text">CineBook</span>
+  </div>
+
+  <nav class="nav-links">
+    <a routerLink="/customer/dashboard" routerLinkActive="active">
+      Home
+    </a>
+
+    <a routerLink="/customer/movies">
+      Movies
+    </a>
+
+    <a routerLink="/customer/bookings">
+      My Bookings
+    </a>
+  </nav>
+
+  <div class="user-section">
+    <div class="user-avatar">
+      {{ userName.charAt(0).toUpperCase() }}
+    </div>
+
+    <span class="user-name">{{ userName }}</span>
+
+    <button class="logout-btn" (click)="logout()">
+      Logout
+    </button>
+  </div>
+
+</header>
+
+
+<!-- Main Dashboard -->
+<main class="dashboard-container">
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+
+    <div class="hero-content">
+
+      <span class="hero-tag">
+        YOUR CINEMA EXPERIENCE STARTS HERE
+      </span>
+
+      <h1>
+        Welcome to <span>CineBook!</span>
+      </h1>
+
+      <p>
+        Discover amazing movies, book your favourite seats,
+        and enjoy unforgettable moments on the big screen.
+      </p>
+
+      <button
+        class="explore-btn"
+        routerLink="/customer/movies">
+        Explore Movies →
+      </button>
+
+    </div>
+
+    <div class="hero-decoration">
+      <div class="play-icon">▶</div>
+      <span>Lights. Camera. Action.</span>
+    </div>
+
+  </section>
+
+
+  <!-- Search Section -->
+
+<section class="search-section">
+
+  <div class="search-heading">
+    <h2>Find Your Movie</h2>
+    <p>Search for your favourite movies</p>
+  </div>
+
+  <div class="search-box">
+
+    <span class="search-icon">⌕</span>
+
+    <input
+      type="text"
+      placeholder="Search movies by title..."
+      [value]="searchTerm"
+      (input)="searchTerm = $any($event.target).value"
+      (keyup.enter)="searchMovies()"
+    />
+
+    <button
+      type="button"
+      (click)="searchMovies()">
+      Search
+    </button>
+
+  </div>
+
+</section>
+
+
+  <!-- Now Showing Movies -->
+  <section class="movies-section">
+
+    <div class="section-heading">
+
+      <div>
+        <h2>Now Showing</h2>
+        <p>Explore movies currently available</p>
+      </div>
+
+      <span class="movie-count">
+        {{ movies.length }} Movies
+      </span>
+
+    </div>
+
+    <!-- Loading -->
+    <div class="loading-message" *ngIf="isLoading">
+      Loading movies...
+    </div>
+
+    <!-- Error -->
+    <div class="error-message" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Movie Cards -->
+    <div
+      class="movie-grid"
+      *ngIf="!isLoading && !errorMessage">
+
+      <div
+        class="movie-card"
+        *ngFor="let movie of movies">
+
+        <div class="movie-poster">
+
+          <div class="poster-placeholder">
+            <span>▶</span>
+            <small>CINEBOOK</small>
+          </div>
+
+          <span class="movie-genre">
+            {{ movie.genre }}
+          </span>
+
+        </div>
+
+        <div class="movie-details">
+
+          <h3>{{ movie.title }}</h3>
+
+          <p class="movie-language">
+            {{ movie.language }}
+          </p>
+
+          <div class="movie-info">
+            <span>{{ movie.durationMinutes }} min</span>
+
+            <span>
+              {{ movie.releaseDate | date:'yyyy' }}
+            </span>
+          </div>
+
+          <button
+            class="book-btn"
+            type="button"
+            (click)="selectMovie(movie.movieId)">
+            Book Tickets
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Empty Message -->
+    <div
+      class="empty-message"
+      *ngIf="!isLoading && !errorMessage && movies.length === 0">
+      No movies available at the moment.
+    </div>
+
+  </section>
+
+</main>

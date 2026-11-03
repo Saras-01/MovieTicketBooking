@@ -1,0 +1,129 @@
+<div class="login-page">
+
+  <div class="login-container">
+
+<!-- Left Side: Branding -->
+<div class="login-banner">
+
+  <div class="brand">
+    <span class="brand-icon">▶</span>
+    <span>CineBook</span>
+  </div>
+
+  <div class="banner-content">
+    <h1>Movies are better<br>when shared.</h1>
+
+    <p>
+      Book your favourite movies, choose your seats
+      and enjoy an unforgettable cinema experience.
+    </p>
+  </div>
+
+  <div class="banner-footer">
+    YOUR CINEMA EXPERIENCE STARTS HERE
+  </div>
+
+</div>
+
+<!-- Right Side: Login Form -->
+<div class="login-form-section">
+
+  <div class="form-header">
+    <h2>Welcome Back!</h2>
+    <p>Sign in to continue to CineBook.</p>
+  </div>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email">Email Address</label>
+
+      <input
+        type="email"
+        id="email"
+        formControlName="email"
+        placeholder="Enter your email"
+      >
+
+      <small
+        class="error-text"
+        *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.errors?.['required']"
+      >
+        Email is required.
+      </small>
+
+      <small
+        class="error-text"
+        *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.errors?.['email']"
+      >
+        Enter a valid email address.
+      </small>
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+      <label for="password">Password</label>
+
+      <div class="password-wrapper">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          id="password"
+          formControlName="password"
+          placeholder="Enter your password"
+        >
+
+        <button
+          type="button"
+          class="password-toggle"
+          (click)="togglePassword()"
+        >
+          {{ showPassword ? 'Hide' : 'Show' }}
+        </button>
+      </div>
+
+      <small
+        class="error-text"
+        *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors?.['required']"
+      >
+        Password is required.
+      </small>
+
+      <small
+        class="error-text"
+        *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors?.['minlength']"
+      >
+        Password must contain at least 6 characters.
+      </small>
+    </div>
+
+    <!-- Backend Error -->
+    <div class="server-error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Login Button -->
+    <button
+      type="submit"
+      class="login-button"
+      [disabled]="isLoading"
+    >
+      {{ isLoading ? 'Signing In...' : 'Sign In' }}
+    </button>
+
+  </form>
+
+  <div class="register-link">
+    Don't have an account?
+    <a routerLink="/register">Create Account</a>
+  </div>
+
+  <div class="form-footer">
+    © 2026 CineBook. All rights reserved.
+  </div>
+
+</div>
+
+  </div>
+
+</div>

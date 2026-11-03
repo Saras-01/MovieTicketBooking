@@ -1,0 +1,423 @@
+/* Dashboard Container */
+
+.dashboard-container {
+  max-width: 1400px;
+  margin: auto;
+  padding: 35px 50px;
+}
+
+/* Navigation Bar */
+
+.navbar {
+  height: 75px;
+  padding: 0 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #11101a;
+  border-bottom: 1px solid #302d3b;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #9333ea;
+  border-radius: 10px;
+  color: white;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: 1px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 35px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #aaa4bd;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: #c084fc;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-avatar {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #9333ea;
+  border-radius: 50%;
+  color: white;
+  font-weight: bold;
+}
+
+.user-name {
+  color: white;
+  font-size: 14px;
+}
+
+.logout-btn {
+  padding: 9px 16px;
+  border: 1px solid #9333ea;
+  border-radius: 7px;
+  background: transparent;
+  color: #c084fc;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #9333ea;
+  color: white;
+}
+
+/* Hero Section */
+
+.hero-section {
+  min-height: 300px;
+  margin-top: 35px;
+  padding: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(120deg, #27113d, #171025);
+  border: 1px solid #49305e;
+  border-radius: 18px;
+}
+
+.hero-content {
+  max-width: 650px;
+}
+
+.hero-tag {
+  color: #c084fc;
+  font-size: 12px;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.hero-content h1 {
+  margin: 20px 0;
+  color: white;
+  font-size: 38px;
+}
+
+.hero-content h1 span {
+  color: #c084fc;
+}
+
+.hero-content p {
+  max-width: 550px;
+  color: #b9b1c9;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.explore-btn {
+  margin-top: 25px;
+  padding: 13px 23px;
+  background: #9333ea;
+  border: none;
+  border-radius: 7px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.explore-btn:hover {
+  background: #a855f7;
+}
+
+.hero-decoration {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  border: 2px solid #7135a3;
+  border-radius: 50%;
+  color: #c084fc;
+}
+
+.play-icon {
+  font-size: 65px;
+}
+
+.hero-decoration span {
+  font-size: 12px;
+}
+
+/* Search Section */
+
+.search-section {
+  margin-top: 45px;
+}
+
+.search-heading h2 {
+  color: white;
+  font-size: 26px;
+}
+
+.search-heading p {
+  margin-top: 8px;
+  color: #9993aa;
+  font-size: 14px;
+}
+
+.search-box {
+  max-width: 650px;
+  height: 52px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  background: #181722;
+  border: 1px solid #393448;
+  border-radius: 9px;
+  overflow: hidden;
+}
+
+.search-icon {
+  padding: 0 15px;
+  color: #c084fc;
+  font-size: 22px;
+}
+
+.search-box input {
+  flex: 1;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: white;
+}
+
+.search-box input::placeholder {
+  color: #817b91;
+}
+
+.search-box button {
+  height: 100%;
+  padding: 0 25px;
+  border: none;
+  background: #9333ea;
+  color: white;
+  cursor: pointer;
+}
+
+/* Movies Section */
+
+.movies-section {
+  margin-top: 55px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.section-heading h2 {
+  color: white;
+  font-size: 26px;
+}
+
+.section-heading p {
+  margin-top: 8px;
+  color: #9993aa;
+  font-size: 14px;
+}
+
+.movie-count {
+  color: #c084fc;
+  font-size: 14px;
+}
+
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 25px;
+}
+
+/* Movie Cards */
+
+.movie-card {
+  overflow: hidden;
+  background: #181722;
+  border: 1px solid #302d3b;
+  border-radius: 14px;
+  transition: 0.3s;
+}
+
+.movie-card:hover {
+  transform: translateY(-6px);
+  border-color: #9333ea;
+}
+
+.movie-poster {
+  height: 230px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #32134d, #171025);
+}
+
+.poster-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: #c084fc;
+}
+
+.poster-placeholder span {
+  font-size: 55px;
+}
+
+.poster-placeholder small {
+  letter-spacing: 4px;
+  font-weight: 700;
+}
+
+.movie-genre {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 6px 10px;
+  background: #9333ea;
+  border-radius: 5px;
+  color: white;
+  font-size: 11px;
+}
+
+.movie-details {
+  padding: 18px;
+}
+
+.movie-details h3 {
+  color: white;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.movie-language {
+  color: #a5a1b5;
+  font-size: 13px;
+}
+
+.movie-info {
+  display: flex;
+  justify-content: space-between;
+  margin: 18px 0;
+  color: #aaa4bd;
+  font-size: 12px;
+}
+
+.book-btn {
+  width: 100%;
+  padding: 11px;
+  background: #9333ea;
+  border: none;
+  border-radius: 7px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.book-btn:hover {
+  background: #a855f7;
+}
+
+/* Messages */
+
+.loading-message,
+.error-message,
+.empty-message {
+  padding: 30px;
+  text-align: center;
+  color: #c084fc;
+}
+
+.error-message {
+  color: #f87171;
+}
+
+/* Responsive Design */
+
+@media (max-width: 1000px) {
+  .movie-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero-decoration {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+@media (max-width: 700px) {
+  .navbar {
+    height: auto;
+    padding: 20px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .nav-links {
+    gap: 15px;
+  }
+
+  .dashboard-container {
+    padding: 25px 20px;
+  }
+
+  .hero-section {
+    padding: 25px;
+  }
+
+  .hero-decoration {
+    display: none;
+  }
+}
+
+@media (max-width: 550px) {
+  .movie-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .user-name {
+    display: none;
+  }
+
+  .hero-content h1 {
+    font-size: 28px;
+  }
+}

@@ -1,0 +1,45 @@
+/* You can add global styles to this file, and also import other style files */
+/* Global Reset */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* HTML and Body */
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #09090f !important;
+  color: #ffffff;
+}
+
+body {
+  min-height: 100vh;
+}
+
+/* Form Elements */
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Smooth Scrolling */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Text Selection */
+
+::selection {
+  background: #a855f7;
+  color: #ffffff;
+}

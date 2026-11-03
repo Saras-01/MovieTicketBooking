@@ -1,0 +1,213 @@
+<div class="register-page">
+
+  <div class="register-container">
+
+    <!-- Left Side: Branding -->
+    <div class="register-banner">
+
+      <div class="brand">
+        <span class="brand-icon">▶</span>
+        <span>CineBook</span>
+      </div>
+
+      <div class="banner-content">
+        <h1>Your next movie experience starts here.</h1>
+
+        <p>
+          Join CineBook and discover movies, book your
+          favourite seats and enjoy unforgettable moments.
+        </p>
+      </div>
+
+      <div class="banner-footer">
+        YOUR CINEMA EXPERIENCE STARTS HERE
+      </div>
+
+    </div>
+
+    <!-- Right Side: Registration Form -->
+    <div class="register-form-section">
+
+      <div class="form-header">
+        <h2>Create Account</h2>
+        <p>Sign up to start booking your favourite movies.</p>
+      </div>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+
+        <!-- Full Name -->
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+
+          <input
+            type="text"
+            id="fullName"
+            formControlName="fullName"
+            placeholder="Enter your full name"
+          >
+
+          <small class="error-text"
+            *ngIf="registerForm.get('fullName')?.touched &&
+                   registerForm.get('fullName')?.errors?.['required']">
+            Full name is required.
+          </small>
+
+          <small class="error-text"
+            *ngIf="registerForm.get('fullName')?.touched &&
+                   registerForm.get('fullName')?.errors?.['minlength']">
+            Name must contain at least 3 characters.
+          </small>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email Address</label>
+
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            placeholder="Enter your email"
+          >
+
+          <small class="error-text"
+            *ngIf="registerForm.get('email')?.touched &&
+                   registerForm.get('email')?.errors?.['required']">
+            Email is required.
+          </small>
+
+          <small class="error-text"
+            *ngIf="registerForm.get('email')?.touched &&
+                   registerForm.get('email')?.errors?.['email']">
+            Enter a valid email address.
+          </small>
+        </div>
+
+        <!-- Phone Number -->
+        <div class="form-group">
+          <label for="phoneNumber">Phone Number</label>
+
+          <input
+            type="tel"
+            id="phoneNumber"
+            formControlName="phoneNumber"
+            placeholder="Enter your 10-digit phone number"
+            maxlength="10"
+          >
+
+          <small class="error-text"
+            *ngIf="registerForm.get('phoneNumber')?.touched &&
+                   registerForm.get('phoneNumber')?.errors?.['required']">
+            Phone number is required.
+          </small>
+
+          <small class="error-text"
+            *ngIf="registerForm.get('phoneNumber')?.touched &&
+                   registerForm.get('phoneNumber')?.errors?.['pattern']">
+            Enter a valid 10-digit phone number.
+          </small>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password">Password</label>
+
+          <div class="password-wrapper">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              formControlName="password"
+              placeholder="Create a password"
+            >
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePassword()"
+            >
+              {{ showPassword ? 'Hide' : 'Show' }}
+            </button>
+          </div>
+
+          <small class="error-text"
+            *ngIf="registerForm.get('password')?.touched &&
+                   registerForm.get('password')?.errors?.['required']">
+            Password is required.
+          </small>
+
+          <small class="error-text"
+            *ngIf="registerForm.get('password')?.touched &&
+                   registerForm.get('password')?.errors?.['minlength']">
+            Password must contain at least 6 characters.
+          </small>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+
+          <div class="password-wrapper">
+            <input
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              id="confirmPassword"
+              formControlName="confirmPassword"
+              placeholder="Confirm your password"
+            >
+
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="toggleConfirmPassword()"
+            >
+              {{ showConfirmPassword ? 'Hide' : 'Show' }}
+            </button>
+          </div>
+
+          <small class="error-text"
+            *ngIf="registerForm.get('confirmPassword')?.touched &&
+                   registerForm.get('confirmPassword')?.errors?.['required']">
+            Please confirm your password.
+          </small>
+
+          <small class="error-text"
+            *ngIf="registerForm.get('confirmPassword')?.touched &&
+                   registerForm.errors?.['passwordMismatch']">
+            Passwords do not match.
+          </small>
+        </div>
+
+        <!-- Backend Error -->
+        <div class="server-error" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message" *ngIf="successMessage">
+          {{ successMessage }}
+        </div>
+
+        <!-- Register Button -->
+        <button
+          type="submit"
+          class="register-button"
+          [disabled]="isLoading"
+        >
+          {{ isLoading ? 'Creating Account...' : 'Create Account' }}
+        </button>
+
+      </form>
+
+      <div class="login-link">
+        Already have an account?
+        <a routerLink="/login">Sign In</a>
+      </div>
+
+      <div class="form-footer">
+        © 2026 CineBook. All rights reserved.
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,42 @@
+/* Global Reset */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #09090f;
+  color: #ffffff;
+}
+
+body {
+  min-height: 100vh;
+}
+
+/* Remove default button and input font differences */
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Smooth Navigation */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection Color */
+
+::selection {
+  background: #a855f7;
+  color: #ffffff;
+}

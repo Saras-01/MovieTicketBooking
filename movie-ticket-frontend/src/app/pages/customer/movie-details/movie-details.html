@@ -1,0 +1,121 @@
+<!-- Movie Details Page -->
+
+<div class="details-page">
+
+  <!-- Navigation -->
+  <header class="details-navbar">
+
+    <div class="logo" routerLink="/customer/dashboard">
+      <span class="logo-icon">▶</span>
+      <span class="logo-text">CineBook</span>
+    </div>
+
+    <button class="back-btn" (click)="goBack()">
+      ← Back to Movies
+    </button>
+
+  </header>
+
+
+  <!-- Loading -->
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="loader"></div>
+    <p>Loading movie details...</p>
+  </div>
+
+
+  <!-- Error -->
+  <div class="error-container" *ngIf="errorMessage">
+    <h2>Oops!</h2>
+    <p>{{ errorMessage }}</p>
+
+    <button (click)="goBack()">
+      Return to Dashboard
+    </button>
+  </div>
+
+
+  <!-- Movie Details -->
+  <main
+    class="movie-details-container"
+    *ngIf="movie && !isLoading">
+
+    <section class="movie-hero">
+
+      <div class="movie-poster">
+
+        <div class="poster-content">
+          <span class="poster-play">▶</span>
+          <h2>CINEBOOK</h2>
+        </div>
+
+      </div>
+
+
+      <div class="movie-information">
+
+        <span class="movie-tag">
+          NOW SHOWING
+        </span>
+
+        <h1>{{ movie.title }}</h1>
+
+        <div class="movie-meta">
+
+          <span>{{ movie.genre }}</span>
+
+          <span>{{ movie.language }}</span>
+
+          <span>{{ movie.durationMinutes }} Minutes</span>
+
+        </div>
+
+        <div class="movie-description">
+
+          <h3>About the Movie</h3>
+
+          <p>{{ movie.description }}</p>
+
+        </div>
+
+        <div class="release-information">
+
+          <span>Release Date</span>
+
+          <strong>
+            {{ movie.releaseDate | date:'dd MMMM yyyy' }}
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- Showtimes Placeholder -->
+    <section class="showtimes-section">
+
+      <h2>Book Your Tickets</h2>
+
+      <p>
+        Select your preferred showtime and enjoy the movie.
+      </p>
+
+      <div class="showtime-placeholder">
+
+        <span class="ticket-icon">🎟</span>
+
+        <h3>Showtimes Coming Next</h3>
+
+        <p>
+          Available theatres and showtimes will appear here.
+        </p>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>

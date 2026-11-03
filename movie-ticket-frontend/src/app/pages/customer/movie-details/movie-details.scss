@@ -1,0 +1,266 @@
+.details-page {
+  min-height: 100vh;
+  background: #09090f;
+  color: #ffffff;
+}
+
+/* Navigation */
+
+.details-navbar {
+  height: 75px;
+  padding: 0 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #11111b;
+  border-bottom: 1px solid #252535;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.logo-icon {
+  background: #a855f7;
+  padding: 9px 12px;
+  border-radius: 9px;
+}
+
+.logo-text {
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.back-btn {
+  background: transparent;
+  color: #c084fc;
+  border: 1px solid #a855f7;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  background: #a855f7;
+  color: #ffffff;
+}
+
+/* Movie Details */
+
+.movie-details-container {
+  max-width: 1150px;
+  margin: 55px auto;
+  padding: 0 25px;
+}
+
+.movie-hero {
+  display: grid;
+  grid-template-columns: 330px 1fr;
+  gap: 55px;
+  align-items: center;
+  background: #141420;
+  padding: 40px;
+  border: 1px solid #29293b;
+  border-radius: 18px;
+}
+
+/* Poster */
+
+.movie-poster {
+  height: 440px;
+  background: linear-gradient(145deg, #581c87, #1e1b4b, #09090f);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.poster-content {
+  text-align: center;
+}
+
+.poster-play {
+  display: block;
+  font-size: 65px;
+  color: #d8b4fe;
+  margin-bottom: 15px;
+}
+
+.poster-content h2 {
+  letter-spacing: 5px;
+  font-size: 25px;
+}
+
+/* Movie Information */
+
+.movie-tag {
+  display: inline-block;
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.movie-information h1 {
+  font-size: 42px;
+  margin: 22px 0;
+}
+
+.movie-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.movie-meta span {
+  background: #252538;
+  color: #d8b4fe;
+  padding: 9px 14px;
+  border-radius: 7px;
+  font-size: 13px;
+}
+
+.movie-description {
+  margin-top: 35px;
+}
+
+.movie-description h3 {
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.movie-description p {
+  color: #aaaabb;
+  line-height: 1.8;
+  font-size: 15px;
+}
+
+.release-information {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.release-information span {
+  color: #9999aa;
+  font-size: 13px;
+}
+
+.release-information strong {
+  color: #c084fc;
+  font-size: 16px;
+}
+
+/* Showtimes */
+
+.showtimes-section {
+  margin-top: 55px;
+}
+
+.showtimes-section h2 {
+  font-size: 27px;
+  margin-bottom: 10px;
+}
+
+.showtimes-section > p {
+  color: #9999aa;
+}
+
+.showtime-placeholder {
+  margin-top: 25px;
+  padding: 45px 20px;
+  background: #141420;
+  border: 1px dashed #48405e;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.ticket-icon {
+  font-size: 40px;
+}
+
+.showtime-placeholder h3 {
+  margin: 15px 0 10px;
+  color: #d8b4fe;
+}
+
+.showtime-placeholder p {
+  color: #9999aa;
+}
+
+/* Loading and Error */
+
+.loading-container,
+.error-container {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.loader {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #333344;
+  border-top-color: #a855f7;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error-container p {
+  color: #ff7777;
+}
+
+.error-container button {
+  padding: 10px 18px;
+  background: #a855f7;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+
+  .details-navbar {
+    padding: 0 5%;
+  }
+
+  .movie-hero {
+    grid-template-columns: 1fr;
+    padding: 25px;
+    gap: 30px;
+  }
+
+  .movie-poster {
+    height: 350px;
+  }
+
+  .movie-information h1 {
+    font-size: 30px;
+  }
+
+  .movie-details-container {
+    margin: 30px auto;
+  }
+
+}
