@@ -9,17 +9,31 @@ using MovieTicketBooking.Repositories;
 using MovieTicketBooking.Repositories.Interfaces;
 using MovieTicketBooking.Services;
 using MovieTicketBooking.Services.Interfaces;
-using System.Text;
 using MovieTicketBooking.Constants;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Controllers
 builder.Services.AddControllers();
 
+// Global Exception Handling
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
-// Database connection
+// CORS Configuration
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AngularFrontend", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
+// Database Connection
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")
@@ -87,32 +101,42 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = jwtSettings["Audience"],
 
         IssuerSigningKey = new SymmetricSecurityKey(jwtKey),
+
         RoleClaimType = System.Security.Claims.ClaimTypes.Role,
 
         ClockSkew = TimeSpan.Zero
     };
 });
 
+// OpenAPI
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+
+// Seed Roles
 await RoleSeeder.SeedAsync(
     app.Services,
     app.Configuration);
 
+// OpenAPI in Development
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
 
+// Middleware Pipeline
 app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 
-// Authentication must come before Authorization
+// Allow Angular Frontend
+app.UseCors("AngularFrontend");
+
+// Authentication before Authorization
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Map Controllers
 app.MapControllers();
 
 app.Run();

@@ -5,7 +5,6 @@ using MovieTicketBooking.Services.Interfaces;
 
 namespace MovieTicketBooking.Controllers;
 
-
 [ApiController]
 [Route("api/[controller]")]
 public class MoviesController : ControllerBase
@@ -26,8 +25,25 @@ public class MoviesController : ControllerBase
         return Ok(movies);
     }
 
+    // GET: api/movies/search?title=Leo
+    [HttpGet("search")]
+    public async Task<IActionResult> Search([FromQuery] string title)
+    {
+        if (string.IsNullOrWhiteSpace(title))
+        {
+            return BadRequest(new
+            {
+                message = "Movie title is required."
+            });
+        }
+
+        var movies = await _movieService.SearchAsync(title);
+
+        return Ok(movies);
+    }
+
     // GET: api/movies/1
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById(int id)
     {
         var movie = await _movieService.GetByIdAsync(id);
@@ -54,7 +70,7 @@ public class MoviesController : ControllerBase
 
     // PUT: api/movies/1
     [Authorize(Roles = "Admin")]
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(
         int id,
         [FromBody] UpdateMovieRequest request)
@@ -69,7 +85,7 @@ public class MoviesController : ControllerBase
 
     // DELETE: api/movies/1
     [Authorize(Roles = "Admin")]
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
         var deleted = await _movieService.DeleteAsync(id);

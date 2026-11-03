@@ -29,6 +29,15 @@ public class MovieRepository : IMovieRepository
             .FirstOrDefaultAsync(m => m.MovieId == id);
     }
 
+    // Search movies by title
+    public async Task<List<Movie>> SearchAsync(string title)
+    {
+        return await _context.Movies
+            .Where(m => m.Title.Contains(title))
+            .OrderBy(m => m.MovieId)
+            .ToListAsync();
+    }
+
     // Create a movie
     public async Task<Movie> CreateAsync(Movie movie)
     {

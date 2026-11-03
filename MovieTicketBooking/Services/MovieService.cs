@@ -19,7 +19,7 @@ public class MovieService : IMovieService
     {
         var movies = await _movieRepository.GetAllAsync();
 
-        return movies.Select(movie => MapToResponse(movie)).ToList();
+        return movies.Select(MapToResponse).ToList();
     }
 
     // Get movie by ID
@@ -31,6 +31,14 @@ public class MovieService : IMovieService
             return null;
 
         return MapToResponse(movie);
+    }
+
+    // Search movies by title
+    public async Task<List<MovieResponse>> SearchAsync(string title)
+    {
+        var movies = await _movieRepository.SearchAsync(title);
+
+        return movies.Select(MapToResponse).ToList();
     }
 
     // Create movie

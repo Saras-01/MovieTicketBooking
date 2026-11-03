@@ -8,6 +8,8 @@ public interface IMovieRepository
 
     Task<Movie?> GetByIdAsync(int id);
 
+    Task<List<Movie>> SearchAsync(string title);
+
     Task<Movie> CreateAsync(Movie movie);
 
     Task<Movie?> UpdateAsync(int id, Movie movie);

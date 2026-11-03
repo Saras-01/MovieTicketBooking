@@ -8,6 +8,8 @@ public interface IMovieService
 
     Task<MovieResponse?> GetByIdAsync(int id);
 
+    Task<List<MovieResponse>> SearchAsync(string title);
+
     Task<MovieResponse> CreateAsync(CreateMovieRequest request);
 
     Task<MovieResponse?> UpdateAsync(
