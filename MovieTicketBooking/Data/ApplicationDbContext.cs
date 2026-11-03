@@ -317,6 +317,67 @@ namespace MovieTicketBooking.Data
                     .HasForeignKey(bs => bs.SeatId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
+            // =====================================
+            // 9. USER CONFIGURATION
+            // =====================================
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("Users");
+
+                entity.HasKey(u => u.UserId);
+
+                entity.Property(u => u.FullName)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(u => u.Email)
+                    .IsRequired()
+                    .HasMaxLength(150);
+
+                entity.Property(u => u.PhoneNumber)
+                    .IsRequired()
+                    .HasMaxLength(15);
+
+                entity.Property(u => u.Role)
+                    .IsRequired()
+                    .HasMaxLength(30);
+
+                entity.HasOne(u => u.Theatre)
+                    .WithMany()
+                    .HasForeignKey(u => u.TheatreId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });// =====================================
+// 9. USER CONFIGURATION
+// =====================================
+
+modelBuilder.Entity<User>(entity =>
+{
+    entity.ToTable("Users");
+
+    entity.HasKey(u => u.UserId);
+
+    entity.Property(u => u.FullName)
+        .IsRequired()
+        .HasMaxLength(100);
+
+    entity.Property(u => u.Email)
+        .IsRequired()
+        .HasMaxLength(150);
+
+    entity.Property(u => u.PhoneNumber)
+        .IsRequired()
+        .HasMaxLength(15);
+
+    entity.Property(u => u.Role)
+        .IsRequired()
+        .HasMaxLength(30);
+
+    entity.HasOne(u => u.Theatre)
+        .WithMany()
+        .HasForeignKey(u => u.TheatreId)
+        .OnDelete(DeleteBehavior.Restrict);
+});
         }
     }
 }

@@ -26,13 +26,32 @@ public class TokenService
             key,
             SecurityAlgorithms.HmacSha256);
 
-        var claims = new[]
+        var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-            new Claim(ClaimTypes.Name, user.FullName),
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Role, user.Role)
+            new Claim(
+                ClaimTypes.NameIdentifier,
+                user.UserId.ToString()),
+
+            new Claim(
+                ClaimTypes.Name,
+                user.FullName),
+
+            new Claim(
+                ClaimTypes.Email,
+                user.Email),
+
+            new Claim(
+                ClaimTypes.Role,
+                user.Role)
         };
+
+        // Add assigned TheatreId for Theatre Manager
+        if (user.TheatreId.HasValue)
+        {
+            claims.Add(new Claim(
+                "TheatreId",
+                user.TheatreId.Value.ToString()));
+        }
 
         int expiryMinutes = int.Parse(
             jwtSettings["ExpiryMinutes"]!);

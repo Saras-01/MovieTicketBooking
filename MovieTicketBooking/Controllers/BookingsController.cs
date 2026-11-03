@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MovieTicketBooking.Constants;
 using MovieTicketBooking.DTOs.Bookings;
 using MovieTicketBooking.Services.Interfaces;
 
@@ -29,6 +30,7 @@ public class BookingsController : ControllerBase
     }
 
     // GET: api/bookings/1
+    [Authorize(Roles = UserRoles.Customer + "," + UserRoles.Admin)]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
@@ -51,7 +53,7 @@ public class BookingsController : ControllerBase
     }
 
     // POST: api/bookings
-    [Authorize(Roles = "Customer")]
+    [Authorize(Roles = UserRoles.Customer + "," + UserRoles.Admin)]
     [HttpPost]
     public async Task<IActionResult> Create(
         [FromBody] CreateBookingRequest request)

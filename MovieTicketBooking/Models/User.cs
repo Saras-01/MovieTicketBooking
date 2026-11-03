@@ -25,5 +25,9 @@ namespace MovieTicketBooking.Models
         public string Role { get; set; } = "Customer";
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public int? TheatreId { get; set; }
+
+        public Theatre? Theatre { get; set; }
     }
 }

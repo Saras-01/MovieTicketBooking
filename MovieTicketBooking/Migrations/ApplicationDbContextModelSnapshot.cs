@@ -335,11 +335,17 @@ namespace MovieTicketBooking.Migrations
 
                     b.Property<string>("Role")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<int?>("TheatreId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users");
+                    b.HasIndex("TheatreId");
+
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("MovieTicketBooking.Models.Booking", b =>
@@ -437,6 +443,16 @@ namespace MovieTicketBooking.Migrations
                     b.Navigation("Seat");
 
                     b.Navigation("Show");
+                });
+
+            modelBuilder.Entity("MovieTicketBooking.Models.User", b =>
+                {
+                    b.HasOne("MovieTicketBooking.Models.Theatre", "Theatre")
+                        .WithMany()
+                        .HasForeignKey("TheatreId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Theatre");
                 });
 
             modelBuilder.Entity("MovieTicketBooking.Models.Booking", b =>

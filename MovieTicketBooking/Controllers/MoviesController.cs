@@ -5,7 +5,7 @@ using MovieTicketBooking.Services.Interfaces;
 
 namespace MovieTicketBooking.Controllers;
 
-[Authorize(Roles = "Admin")]
+
 [ApiController]
 [Route("api/[controller]")]
 public class MoviesController : ControllerBase

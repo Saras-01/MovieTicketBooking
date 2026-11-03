@@ -10,6 +10,7 @@ using MovieTicketBooking.Repositories.Interfaces;
 using MovieTicketBooking.Services;
 using MovieTicketBooking.Services.Interfaces;
 using System.Text;
+using MovieTicketBooking.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -95,6 +96,9 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+await RoleSeeder.SeedAsync(
+    app.Services,
+    app.Configuration);
 
 if (app.Environment.IsDevelopment())
 {
