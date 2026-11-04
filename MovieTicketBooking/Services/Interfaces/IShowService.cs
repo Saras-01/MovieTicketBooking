@@ -8,6 +8,9 @@ public interface IShowService
 
     Task<ShowResponse?> GetByIdAsync(int id);
 
+    // Retrieve shows for a particular movie
+    Task<List<ShowResponse>> GetByMovieIdAsync(int movieId);
+
     Task<ShowResponse> CreateAsync(CreateShowRequest request);
 
     Task<ShowResponse?> UpdateAsync(int id, UpdateShowRequest request);

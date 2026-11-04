@@ -40,6 +40,14 @@ public class ShowService : IShowService
         return MapToResponse(show);
     }
 
+    // Retrieve all shows for a particular movie
+    public async Task<List<ShowResponse>> GetByMovieIdAsync(int movieId)
+    {
+        var shows = await _showRepository.GetByMovieIdAsync(movieId);
+
+        return shows.Select(MapToResponse).ToList();
+    }
+
     public async Task<ShowResponse> CreateAsync(CreateShowRequest request)
     {
         await ValidateShowAsync(
@@ -103,6 +111,13 @@ public class ShowService : IShowService
 
     public async Task<bool> DeleteAsync(int id)
     {
+        var existingShow = await _showRepository.GetByIdAsync(id);
+
+        if (existingShow == null)
+        {
+            return false;
+        }
+
         return await _showRepository.DeleteAsync(id);
     }
 
@@ -129,7 +144,6 @@ public class ShowService : IShowService
             Status = ss.Status
         }).ToList();
     }
-
     private async Task ValidateShowAsync(
         int movieId,
         int screenId,

@@ -10,12 +10,33 @@ using MovieTicketBooking.Repositories.Interfaces;
 using MovieTicketBooking.Services;
 using MovieTicketBooking.Services.Interfaces;
 using MovieTicketBooking.Constants;
+using MovieTicketBooking.Middleware;
+using Scalar.AspNetCore;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Controllers
 builder.Services.AddControllers();
+// Policy-Based Authorization
+builder.Services.AddAuthorization(options =>
+{
+    // Only Admin can access
+    options.AddPolicy("AdminOnly", policy =>
+        policy.RequireRole(UserRoles.Admin));
+
+    // Customers and Admins can access
+    options.AddPolicy("CustomerOrAdmin", policy =>
+        policy.RequireRole(
+            UserRoles.Customer,
+            UserRoles.Admin));
+
+    // User must have a valid UserId claim
+    options.AddPolicy("AuthenticatedUser", policy =>
+        policy.RequireAuthenticatedUser()
+              .RequireClaim(
+                  System.Security.Claims.ClaimTypes.NameIdentifier));
+});
 
 // Global Exception Handling
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
@@ -112,6 +133,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Seed Roles
 await RoleSeeder.SeedAsync(
@@ -119,21 +141,43 @@ await RoleSeeder.SeedAsync(
     app.Configuration);
 
 // OpenAPI in Development
+// OpenAPI and Scalar Configuration
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+
+    app.MapScalarApiReference();
 }
 
 // Middleware Pipeline
+
+// Global Exception Handling
 app.UseExceptionHandler();
 
+app.UseMiddleware<ExceptionMiddleware>();
+
+// HTTPS Redirection
 app.UseHttpsRedirection();
+
+// Routing
+app.UseRouting();
 
 // Allow Angular Frontend
 app.UseCors("AngularFrontend");
 
-// Authentication before Authorization
+// 1. Endpoint Metadata Middleware
+app.UseMiddleware<EndpointMetadataMiddleware>();
+
+// 2. Authentication
 app.UseAuthentication();
+
+// 3. Authentication Diagnostics Middleware
+app.UseMiddleware<AuthenticationDiagnosticsMiddleware>();
+
+// 4. Authorization Diagnostics Middleware
+app.UseMiddleware<AuthorizationDiagnosticsMiddleware>();
+
+// 5. Authorization
 app.UseAuthorization();
 
 // Map Controllers

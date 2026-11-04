@@ -35,8 +35,17 @@ public class ShowsController : ControllerBase
 
         return Ok(show);
     }
+    // Get all shows for a particular movie
+    [HttpGet("movie/{movieId:int}")]
+    public async Task<ActionResult<List<ShowResponse>>> GetByMovieId(
+        int movieId)
+    {
+        var shows = await _showService.GetByMovieIdAsync(movieId);
 
-    [Authorize(Roles = "Admin")]
+        return Ok(shows);
+    }
+
+    [Authorize(Policy = "AdminOnly")]
     [HttpPost]
     public async Task<ActionResult<ShowResponse>> Create(
         CreateShowRequest request)
@@ -60,7 +69,7 @@ public class ShowsController : ControllerBase
         }
     }
 
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "AdminOnly")]
     [HttpPut("{id}")]
     public async Task<ActionResult<ShowResponse>> Update(
         int id,
@@ -83,7 +92,7 @@ public class ShowsController : ControllerBase
         }
     }
 
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "AdminOnly")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {

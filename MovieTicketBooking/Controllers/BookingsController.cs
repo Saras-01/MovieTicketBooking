@@ -18,7 +18,7 @@ public class BookingsController : ControllerBase
     }
 
     // GET: api/bookings
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "AdminOnly")]
     [HttpGet]
     public async Task<IActionResult> GetAll(
         [FromQuery] int? showId,
@@ -30,7 +30,7 @@ public class BookingsController : ControllerBase
     }
 
     // GET: api/bookings/1
-    [Authorize(Roles = UserRoles.Customer + "," + UserRoles.Admin)]
+    [Authorize(Policy = "CustomerOrAdmin")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
@@ -43,7 +43,7 @@ public class BookingsController : ControllerBase
     }
 
     // GET: api/bookings/show/1
-    [Authorize(Roles = "Admin")]
+    [Authorize(Policy = "AdminOnly")]
     [HttpGet("show/{showId}")]
     public async Task<IActionResult> GetByShowId(int showId)
     {
@@ -53,7 +53,7 @@ public class BookingsController : ControllerBase
     }
 
     // POST: api/bookings
-    [Authorize(Roles = UserRoles.Customer + "," + UserRoles.Admin)]
+    [Authorize(Policy = "CustomerOrAdmin")]
     [HttpPost]
     public async Task<IActionResult> Create(
         [FromBody] CreateBookingRequest request)
@@ -67,7 +67,7 @@ public class BookingsController : ControllerBase
     }
 
     // PUT: api/bookings/1/cancel
-    [Authorize(Roles = "Customer,Admin")]
+    [Authorize(Policy = "CustomerOrAdmin")]
     [HttpPut("{id}/cancel")]
     public async Task<IActionResult> Cancel(int id)
     {

@@ -45,14 +45,6 @@ public class TokenService
                 user.Role)
         };
 
-        // Add assigned TheatreId for Theatre Manager
-        if (user.TheatreId.HasValue)
-        {
-            claims.Add(new Claim(
-                "TheatreId",
-                user.TheatreId.Value.ToString()));
-        }
-
         int expiryMinutes = int.Parse(
             jwtSettings["ExpiryMinutes"]!);
 

@@ -8,6 +8,8 @@ public interface IShowRepository
 
     Task<Show?> GetByIdAsync(int id);
 
+    Task<List<Show>> GetByMovieIdAsync(int movieId);
+
     Task<Show> CreateAsync(Show show);
 
     Task<Show?> UpdateAsync(int id, Show show);

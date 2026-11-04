@@ -31,6 +31,16 @@ public class ShowRepository : IShowRepository
             .FirstOrDefaultAsync(s => s.ShowId == id);
     }
 
+    // Retrieve all shows for a particular movie
+    public async Task<List<Show>> GetByMovieIdAsync(int movieId)
+    {
+        return await _context.Shows
+            .Include(s => s.Movie)
+            .Include(s => s.Screen)
+            .Where(s => s.MovieId == movieId)
+            .OrderBy(s => s.StartTime)
+            .ToListAsync();
+    }
     public async Task<Show> CreateAsync(Show show)
     {
         await using var transaction =

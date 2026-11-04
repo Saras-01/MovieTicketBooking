@@ -31,20 +31,12 @@ public static class RoleSeeder
             },
             new
             {
-                FullName = "Theatre Manager",
-                Email = "manager@moviebooking.com",
-                PhoneNumber = "9999999998",
-                Role = UserRoles.TheatreManager,
-                Password = configuration["SeedUsers:ManagerPassword"]
-            },
-            new
-{
-    FullName = "Second Admin",
-    Email = "admin2@moviebooking.com",
-    PhoneNumber = "9999999997",
-    Role = UserRoles.Admin,
-    Password = configuration["SeedUsers:Admin2Password"]
-}
+                FullName = "Second Admin",
+                Email = "admin2@moviebooking.com",
+                PhoneNumber = "9999999997",
+                Role = UserRoles.Admin,
+                Password = configuration["SeedUsers:Admin2Password"]
+            }
         };
 
         foreach (var account in accounts)

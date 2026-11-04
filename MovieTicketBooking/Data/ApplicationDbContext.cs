@@ -343,10 +343,7 @@ namespace MovieTicketBooking.Data
                     .IsRequired()
                     .HasMaxLength(30);
 
-                entity.HasOne(u => u.Theatre)
-                    .WithMany()
-                    .HasForeignKey(u => u.TheatreId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                
             });// =====================================
 // 9. USER CONFIGURATION
 // =====================================
@@ -372,11 +369,6 @@ modelBuilder.Entity<User>(entity =>
     entity.Property(u => u.Role)
         .IsRequired()
         .HasMaxLength(30);
-
-    entity.HasOne(u => u.Theatre)
-        .WithMany()
-        .HasForeignKey(u => u.TheatreId)
-        .OnDelete(DeleteBehavior.Restrict);
 });
         }
     }
