@@ -1,0 +1,130 @@
+<div class="seat-selection-container">
+
+  <!-- Header -->
+  <header class="seat-header">
+
+    <button class="back-btn" (click)="goBack()">
+      ← Back
+    </button>
+
+    <div>
+      <h1>Select Your Seats</h1>
+      <p>Choose your preferred seats for the movie.</p>
+    </div>
+
+  </header>
+
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-message">
+    Loading available seats...
+  </div>
+
+
+  <!-- Error -->
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+
+  <!-- Seat Layout -->
+  <div *ngIf="!isLoading && !errorMessage && seats.length > 0"
+       class="seat-layout">
+
+    <!-- Cinema Screen -->
+    <div class="screen-container">
+
+      <div class="screen"></div>
+
+      <p>SCREEN THIS WAY</p>
+
+    </div>
+
+
+    <!-- Seat Legend -->
+    <div class="seat-legend">
+
+      <div class="legend-item">
+        <span class="seat-box available"></span>
+        <span>Available</span>
+      </div>
+
+      <div class="legend-item">
+        <span class="seat-box booked"></span>
+        <span>Booked</span>
+      </div>
+
+      <div class="legend-item">
+        <span class="seat-box selected"></span>
+        <span>Selected</span>
+      </div>
+
+    </div>
+
+
+    <!-- Seats -->
+    <div class="seats-container">
+
+      <div class="seat-item" *ngFor="let seat of seats">
+
+        <span class="row-label">
+          {{ seat.rowName }}
+        </span>
+
+        <button
+          class="seat"
+          [ngClass]="{
+            'available': seat.status.toLowerCase() === 'available',
+            'booked': seat.status.toLowerCase() !== 'available' && !isSelected(seat),
+            'selected': isSelected(seat)
+          }"
+          [disabled]="seat.status.toLowerCase() !== 'available'"
+          (click)="toggleSeat(seat)">
+
+          {{ seat.seatNumber }}
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- Booking Summary -->
+    <div class="booking-summary">
+
+      <h2>Booking Summary</h2>
+
+      <p>
+        Selected Seats:
+        <strong>{{ selectedSeats.length }}</strong>
+      </p>
+
+      <p>
+        Total Amount:
+        <strong>₹{{ getTotalPrice() }}</strong>
+      </p>
+
+      <button
+        class="continue-btn"
+        [disabled]="selectedSeats.length === 0">
+
+        Continue
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- Empty Seats -->
+  <div
+    *ngIf="!isLoading && !errorMessage && seats.length === 0"
+    class="empty-message">
+
+    No seats are available for this show.
+
+  </div>
+
+</div>

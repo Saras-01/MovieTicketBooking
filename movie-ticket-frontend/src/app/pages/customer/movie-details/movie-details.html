@@ -94,27 +94,58 @@
 
 
     <!-- Showtimes Placeholder -->
-    <section class="showtimes-section">
+   <!-- Available Showtimes -->
 
-      <h2>Book Your Tickets</h2>
+<section class="showtimes-section">
 
-      <p>
-        Select your preferred showtime and enjoy the movie.
-      </p>
+  <h2>Book Your Tickets</h2>
 
-      <div class="showtime-placeholder">
+  <p class="section-description">
+    Select your preferred showtime and enjoy the movie.
+  </p>
 
-        <span class="ticket-icon">🎟</span>
+  <div *ngIf="isShowsLoading" class="loading-message">
+    Loading showtimes...
+  </div>
 
-        <h3>Showtimes Coming Next</h3>
+  <div *ngIf="showsError" class="error-message">
+    {{ showsError }}
+  </div>
 
-        <p>
-          Available theatres and showtimes will appear here.
-        </p>
+  <div *ngIf="!isShowsLoading && shows.length === 0 && !showsError"
+       class="empty-message">
+    No shows are currently available for this movie.
+  </div>
 
+  <div class="showtimes-grid">
+
+    <div class="show-card" *ngFor="let show of shows">
+
+      <div class="show-date">
+        {{ show.startTime | date:'dd MMM yyyy' }}
       </div>
 
-    </section>
+      <div class="show-time">
+        {{ show.startTime | date:'hh:mm a' }}
+        -
+        {{ show.endTime | date:'hh:mm a' }}
+      </div>
+
+      <div class="show-price">
+        ₹{{ show.ticketPrice | number:'1.2-2' }}
+      </div>
+
+      <button
+  class="select-show-btn"
+  (click)="selectShow(show.showId)">
+  Select Show
+</button>
+
+    </div>
+
+  </div>
+
+</section>
 
   </main>
 

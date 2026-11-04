@@ -160,41 +160,85 @@
   font-size: 16px;
 }
 
-/* Showtimes */
-
 .showtimes-section {
-  margin-top: 55px;
+  padding: 45px 25px;
+  background: #09090f;
+
+  h2 {
+    font-size: 28px;
+    color: #ffffff;
+    margin-bottom: 10px;
+  }
 }
 
-.showtimes-section h2 {
-  font-size: 27px;
-  margin-bottom: 10px;
+.section-description {
+  color: #a1a1b5;
+  margin-bottom: 25px;
 }
 
-.showtimes-section > p {
-  color: #9999aa;
-}
-
-.showtime-placeholder {
+.showtimes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px;
   margin-top: 25px;
-  padding: 45px 20px;
-  background: #141420;
-  border: 1px dashed #48405e;
-  border-radius: 15px;
-  text-align: center;
 }
 
-.ticket-icon {
-  font-size: 40px;
+.show-card {
+  background: #171725;
+  border: 1px solid #303047;
+  border-radius: 14px;
+  padding: 22px;
+  transition: 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: #a855f7;
+    box-shadow: 0 8px 25px rgba(168, 85, 247, 0.15);
+  }
 }
 
-.showtime-placeholder h3 {
-  margin: 15px 0 10px;
-  color: #d8b4fe;
+.show-date {
+  color: #b983ff;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 15px;
 }
 
-.showtime-placeholder p {
-  color: #9999aa;
+.show-time {
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.show-price {
+  color: #a855f7;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.select-show-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #9333ea, #6d28d9);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    background: linear-gradient(135deg, #a855f7, #7e22ce);
+  }
+}
+
+.loading-message,
+.empty-message,
+.error-message {
+  margin-top: 20px;
+  color: #b983ff;
 }
 
 /* Loading and Error */
@@ -262,5 +306,93 @@
   .movie-details-container {
     margin: 30px auto;
   }
+  /* Available Showtimes */
+
+.showtimes-section {
+  margin-top: 55px;
+}
+
+.showtimes-section h2 {
+  font-size: 27px;
+  margin-bottom: 10px;
+}
+
+.showtimes-section > p {
+  color: #9999aa;
+  margin-bottom: 25px;
+}
+
+.show-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.show-card {
+  background: #141420;
+  border: 1px solid #29293b;
+  border-radius: 14px;
+  padding: 22px;
+  transition: 0.3s;
+}
+
+.show-card:hover {
+  border-color: #a855f7;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(168, 85, 247, 0.12);
+}
+
+.show-date,
+.show-time,
+.show-price {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.show-card span {
+  color: #9999aa;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.show-card strong {
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.show-price strong {
+  color: #c084fc;
+  font-size: 21px;
+}
+
+.showtime-message {
+  background: #141420;
+  border: 1px solid #29293b;
+  border-radius: 12px;
+  padding: 25px;
+  margin-top: 25px;
+  color: #c084fc;
+  text-align: center;
+}
+
+.showtime-message.error {
+  color: #ff7777;
+  border-color: #7f1d1d;
+}
+
+/* Responsive */
+
+@media (max-width: 600px) {
+  .show-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .show-card {
+    padding: 18px;
+  }
+}
 
 }
